@@ -1,0 +1,11 @@
+# 运行时缓存：曲库扫描结果、封面缓存、端口口令
+.cache/
+
+# Node
+node_modules/
+
+# 日志与临时产物
+*.log
+*.tmp
+Thumbs.db
+desktop.ini

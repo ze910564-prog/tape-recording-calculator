@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>磁带录制计算器</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">▮▮</span>
+    <div>
+      <h1>磁带录制计算器</h1>
+      <div class="sub" id="libInfo">正在载入曲库…</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <label class="field">
+      <span>磁带标称</span>
+      <input type="number" id="minutes" min="1" max="200" step="1" value="120">
+      <span class="unit">分钟</span>
+    </label>
+
+    <div class="field">
+      <span>档位</span>
+      <div class="seg" id="offsetSeg">
+        <button data-offset="+1m">+1m</button>
+        <button data-offset="+30s">+30s</button>
+        <button data-offset="nominal" class="on">标称</button>
+        <button data-offset="-30s">-30s</button>
+        <button data-offset="-1m">-1m</button>
+      </div>
+    </div>
+
+    <label class="field">
+      <span>计算方式</span>
+      <select id="mode">
+        <option value="value">准确数值</option>
+        <option value="percent">百分比</option>
+      </select>
+    </label>
+
+    <label class="field" id="fillField">
+      <span>两面分配</span>
+      <select id="fill" title="塞满＝A 面尽量满（自动反面、手动反面都适用）；均衡＝两面各占一半，B 面听完翻过来正好回到起点（仅手动反面机型有意义）">
+        <option value="pack">塞满 A 面（自动/手动反面机）</option>
+        <option value="balance">两面均衡（仅手动反面机）</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>歌间留白</span>
+      <input type="number" id="gap" min="0" max="30" step="1" value="3">
+      <span class="unit">秒</span>
+    </label>
+
+    <label class="field">
+      <span>起始引导</span>
+      <input type="number" id="lead" min="0" max="60" step="1" value="0">
+      <span class="unit">秒</span>
+    </label>
+
+    <button id="autoBtn" class="btn" title="保持选歌，只重新划分 A/B 面">自动排布</button>
+  </div>
+</header>
+
+<main class="layout">
+  <!-- 左：曲库 -->
+  <section class="panel library">
+    <div class="panel-head">
+      <input type="search" id="search" placeholder="搜索标题 / 艺人 / 专辑 / 文件名…">
+      <div class="row">
+        <select id="libSelect" title="切换曲库"></select>
+        <button id="addLibBtn" class="icon-btn" title="添加曲库目录">＋</button>
+        <button id="rescanBtn" class="icon-btn" title="重新扫描">↻</button>
+      </div>
+      <div class="scan-bar" id="scanBar" hidden>
+        <div class="scan-fill" id="scanFill"></div>
+        <span id="scanText"></span>
+      </div>
+      <div class="row small">
+        <span id="libCount">—</span>
+        <label class="chk"><input type="checkbox" id="onlyAlbum"> 按文件夹看</label>
+      </div>
+      <div id="dirList" class="dir-list" hidden></div>
+    </div>
+    <div class="list" id="libList"></div>
+  </section>
+
+  <!-- 中：已选（录制顺序） -->
+  <section class="panel selected">
+    <div class="panel-head">
+      <div class="row">
+        <strong>录制清单</strong>
+        <span id="selCount" class="muted">0 首</span>
+        <span class="spacer"></span>
+        <button id="clearBtn" class="text-btn">清空</button>
+      </div>
+      <div class="row small muted">
+        拖动可调顺序 · 顺序即录制顺序
+      </div>
+    </div>
+    <div class="list" id="selList"></div>
+  </section>
+
+  <!-- 右：判定 -->
+  <section class="panel verdict">
+    <div class="panel-head">
+      <strong>判定</strong>
+    </div>
+    <div id="verdictBody" class="verdict-body">
+      <p class="muted">左侧选歌后这里会实时显示结果。</p>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" hidden></div>
+
+<script type="module" src="/app.js"></script>
+</body>
+</html>
